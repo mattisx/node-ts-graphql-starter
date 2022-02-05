@@ -1,0 +1,18 @@
+type Author implements Timestamps {
+  id: ID!
+  name: String!
+  publishers: [Publisher]
+
+  # Interface requires these
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+# Inputs
+input AuthorCreateInput {
+  name: String!
+}
+
+input AuthorUpdateInput {
+  name: String
+}
