@@ -1,12 +1,14 @@
 import { ApolloServer } from 'apollo-server-express'
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core'
 import schema from './schema'
+import { Server } from 'http'
+import { Context } from '../types/serverTypes'
 
-const graphql = (context, httpServer) => {
+const graphql = (context: Context, httpServer: Server) => {
   return new ApolloServer({
     schema,
-    playground: context.env.dev,
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    context,
   })
 }
 

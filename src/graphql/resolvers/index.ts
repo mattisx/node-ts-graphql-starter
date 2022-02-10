@@ -2,7 +2,7 @@ import { authorMutations, authorQueries } from './author'
 import { bookMutations, bookQueries } from './book'
 import { publisherMutations, publisherQueries } from './publisher'
 
-const resolvers = {
+export const resolvers = {
   Query: {
     ...authorQueries,
     ...bookQueries,
@@ -14,5 +14,3 @@ const resolvers = {
     ...publisherMutations
   }
 }
-
-export default resolvers

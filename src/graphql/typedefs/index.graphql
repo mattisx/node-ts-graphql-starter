@@ -7,7 +7,7 @@ type Query {
 
   # Author
   authors: [Author]!
-  author(id: ID!): Author
+  author(id: ID!): [Author]!
 
   # Publisher
   publishers: [Publisher]!
@@ -26,5 +26,4 @@ type Mutation {
   # Publishers
   createPublisher(publisher: PublisherCreateInput!): Publisher!
   updatePublisher(id: ID!, publisher: PublisherUpdateInput!): Publisher!
- 
 }

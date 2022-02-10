@@ -3,7 +3,7 @@ type Author implements Timestamps {
   name: String!
   publishers: [Publisher]
 
-  # Interface requires these
+  # Timestamp interface (in common.graphql) will enforce that these exists
   createdAt: Date!
   updatedAt: Date!
 }
