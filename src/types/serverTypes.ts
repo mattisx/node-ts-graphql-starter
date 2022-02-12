@@ -8,6 +8,7 @@ export type Either<T, U> = Only<T, U> | Only<U, T>
 export interface Context {
   env: Env
   port: number
+  pgConfig: PgConfig
   db: DatabaseInstance
   services: Services
 }
@@ -15,6 +16,15 @@ export interface Context {
 export type Env = {
   dev: boolean
   prod: boolean
+}
+
+export type PgConfig = {
+  active: boolean
+  PGHOST?: string
+  PGPORT?: string
+  PGDATABASE?: string
+  PGUSER?: string
+  PGPASSWORD?: string
 }
 
 export type Services = {

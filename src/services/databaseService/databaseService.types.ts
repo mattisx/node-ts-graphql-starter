@@ -1,3 +1,3 @@
-export type DatabaseInstance = {
-  database: boolean
-}
+import { Pool } from 'pg'
+
+export type DatabaseInstance = Pool

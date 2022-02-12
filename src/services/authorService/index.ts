@@ -1,39 +1,64 @@
+import { CreateAuthorProps, UpdateAuthorProps } from '../../graphql/resolvers/author/mutations'
 import { Either } from '../../types/serverTypes'
+import { camelCase } from '../../utils/camelCase'
 import { serviceError } from '../../utils/serviceError'
-import { AuthorResponse, AuthorServiceProps, ServiceError } from './authorService.types'
-
-import { data } from './dummydata'
+import { Author, AuthorResponse, AuthorServiceProps, ServiceError } from './authorService.types'
 
 export interface AuthorService {
   getAuthor: (id: number) => Promise<Either<AuthorResponse, ServiceError>>
   getAuthors: () => Promise<Either<AuthorResponse, ServiceError>>
+  createAuthor: (props: CreateAuthorProps) => Promise<Either<AuthorResponse, ServiceError>>
+  updateAuthor: (props: UpdateAuthorProps) => Promise<Either<AuthorResponse, ServiceError>>
 }
 
 export const AuthorService = ({ db }: AuthorServiceProps): AuthorService => {
   const getAuthor = async (id: number) => {
     try {
-      const author = data.filter((author) => {
-        if (author.id === id) {
-          return author
-        }
-      })
-      return Promise.resolve({ success: true, data: author })
+      const query = 'SELECT * FROM authors WHERE id = $1' // Never use `String ${concatenation}` in queries!
+      const values = [id]
+      const { rows } = await db.query(query, values)
+      return { success: true, data: <Author[]>camelCase(rows)[0] }
     } catch (error: unknown) {
-      return Promise.resolve(serviceError(error, 'Could not get author.'))
+      return serviceError(error, 'Could not get author.')
     }
   }
 
   const getAuthors = async () => {
     try {
-      const authors = data
-      return Promise.resolve({ success: true, data: authors })
+      const query = 'SELECT * FROM authors'
+      const { rows } = await db.query(query)
+      return { success: true, data: <Author[]>camelCase(rows) }
     } catch (error: unknown) {
-      return Promise.resolve(serviceError(error, 'Could not get authors.'))
+      return serviceError(error, 'Could not get authors.')
+    }
+  }
+
+  const createAuthor = async ({ name }: CreateAuthorProps) => {
+    try {
+      const query = 'INSERT INTO authors (name) VALUES ($1) RETURNING *'
+      const values = [name]
+      const { rows } = await db.query(query, values)
+      return { success: true, data: <Author[]>camelCase(rows)[0] }
+    } catch (error: unknown) {
+      return serviceError(error, 'Could not create author.')
+    }
+  }
+
+  const updateAuthor = async ({ id, name }: UpdateAuthorProps) => {
+    try {
+      const query = 'UPDATE authors SET name = $2 WHERE id = $1 RETURNING *'
+      const values = [id, name]
+      const { rows } = await db.query(query, values)
+      return { success: true, data: <Author[]>camelCase(rows)[0] }
+    } catch (error: unknown) {
+      return serviceError(error, 'Could not update author.')
     }
   }
 
   return {
     getAuthor,
     getAuthors,
+    createAuthor,
+    updateAuthor,
   }
 }

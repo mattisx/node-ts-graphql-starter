@@ -1,4 +1,4 @@
-import { port, env } from './config/env'
+import { port, env, pgConfig } from './config/env'
 import { app } from './app'
 import { Context } from './types/serverTypes'
 import { DatabaseService } from './services/databaseService'
@@ -14,13 +14,12 @@ const authorService = AuthorService({ db })
 const context: Context = {
   env,
   port,
+  pgConfig,
   db,
   services: {
     authorService,
   },
 }
-
-console.log(context)
 
 const start = async (context: Context) => {
   try {

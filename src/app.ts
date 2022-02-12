@@ -13,10 +13,9 @@ export const app = {
 
     graphqlServer.applyMiddleware({
       app,
-      path: '/graphql'
+      path: '/graphql',
     })
-    
-    httpServer.listen({ port: context.port })
 
-  }
+    httpServer.listen({ port: context.port })
+  },
 }

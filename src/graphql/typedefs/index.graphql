@@ -7,7 +7,7 @@ type Query {
 
   # Author
   authors: [Author]!
-  author(id: ID!): [Author]!
+  author(id: ID!): Author!
 
   # Publisher
   publishers: [Publisher]!
@@ -20,8 +20,8 @@ type Mutation {
   updateBook(id: ID!, book: BookUpdateInput!): Book!
 
   # Authors
-  createAuthor(author: AuthorCreateInput!): Author!
-  updateAuthor(id: ID!, author: AuthorUpdateInput!): Author!
+  createAuthor(name: String): Author
+  updateAuthor(id: ID!, name: String): Author
 
   # Publishers
   createPublisher(publisher: PublisherCreateInput!): Publisher!

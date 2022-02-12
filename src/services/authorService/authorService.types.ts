@@ -16,6 +16,8 @@ export interface ServiceError {
 export type Author = {
   id: number
   name: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 export type AuthorServiceProps = {
