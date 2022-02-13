@@ -4,13 +4,15 @@ import { Context } from './types/serverTypes'
 import { graphql } from './graphql'
 import { rest } from './rest'
 import { auth } from './utils/auth'
+import { rateLimit } from './utils/rateLimit'
 
 export const app = {
   run: async (context: Context) => {
     const app: Express = express()
     const httpServer: Server = http.createServer(app)
 
-    app.use(auth)
+    app.use(rateLimit(context))
+    app.use(auth(context))
 
     const graphqlServer = graphql(context, httpServer)
     await graphqlServer.start()

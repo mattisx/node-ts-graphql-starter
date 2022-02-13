@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import { Env, PgConfig } from '../types/serverTypes'
+import { Env, JwtConfig, PgConfig, RateLimitConfig } from '../types/serverTypes'
 
 // Fail fast if required values are missing.
 
@@ -7,10 +7,11 @@ import { Env, PgConfig } from '../types/serverTypes'
 if (!process.env.NODE_ENV) {
   throw new Error('Missing NODE_ENV environment variable!')
 }
-// if (['dev', 'prod'].indexOf(process.env.NODE_ENV) === -1) {
-//   throw new Error(`Environment variable NODE_ENV does not contain either 'dev' or 'prod'.`)
-// }
+if (['local', 'dev', 'prod'].indexOf(process.env.NODE_ENV) === -1) {
+  throw new Error(`Environment variable NODE_ENV does not contain 'local', 'dev' or 'prod'.`)
+}
 const env: Env = {
+  local: process.env.NODE_ENV === 'local',
   dev: process.env.NODE_ENV === 'dev',
   prod: process.env.NODE_ENV === 'prod',
 }
@@ -54,4 +55,25 @@ if (!process.env.JWT_MAX_AGE_SECONDS || isNaN(parseInt(process.env.JWT_MAX_AGE_S
 }
 const JWT_MAX_AGE_SECONDS: number = parseInt(process.env.JWT_MAX_AGE_SECONDS)
 
-export { port, env, pgConfig, JWT_SECRET, JWT_MAX_AGE_SECONDS }
+const jwtConfig: JwtConfig = {
+  secret: JWT_SECRET,
+  maxAge: JWT_MAX_AGE_SECONDS,
+}
+
+// Validate rate limit
+if (!process.env.RATE_LIMIT_MAX_REQUEST_COUNT || isNaN(parseInt(process.env.RATE_LIMIT_MAX_REQUEST_COUNT))) {
+  throw new Error('Missing or invalid RATE_LIMIT_MAX_REQUEST_COUNT environment variable!')
+}
+const RATE_LIMIT_MAX_REQUEST_COUNT: number = parseInt(process.env.RATE_LIMIT_MAX_REQUEST_COUNT)
+
+if (!process.env.RATE_LIMIT_TIME_WINDOW_SECONDS || isNaN(parseInt(process.env.RATE_LIMIT_TIME_WINDOW_SECONDS))) {
+  throw new Error('Missing or invalid RATE_LIMIT_TIME_WINDOW_SECONDS environment variable!')
+}
+const RATE_LIMIT_TIME_WINDOW_SECONDS: number = parseInt(process.env.RATE_LIMIT_TIME_WINDOW_SECONDS)
+
+const rateLimitConfig: RateLimitConfig = {
+  maxRequestCount: RATE_LIMIT_MAX_REQUEST_COUNT,
+  timeWindowSeconds: RATE_LIMIT_TIME_WINDOW_SECONDS,
+}
+
+export { port, env, pgConfig, jwtConfig, rateLimitConfig }
