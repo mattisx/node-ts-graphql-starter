@@ -16,8 +16,8 @@ const env: Env = {
 }
 
 // Validate PORT
-if (!process.env.PORT) {
-  throw new Error('Missing PORT environment variable!')
+if (!process.env.PORT || isNaN(parseInt(process.env.PORT))) {
+  throw new Error('Missing or invalid PORT environment variable!')
 }
 const port: number = parseInt(process.env.PORT)
 
