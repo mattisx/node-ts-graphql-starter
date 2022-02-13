@@ -1,28 +1,27 @@
 import express, { Express } from 'express'
-import http from 'http'
-import graphql from './graphql'
+import http, { Server } from 'http'
 import { Context } from './types/serverTypes'
+import { graphql } from './graphql'
+import { rest } from './rest'
 import { auth } from './utils/auth'
 
 export const app = {
   run: async (context: Context) => {
     const app: Express = express()
-    const httpServer = http.createServer(app)
-
-    const graphqlServer = graphql(context, httpServer)
-    await graphqlServer.start()
+    const httpServer: Server = http.createServer(app)
 
     app.use(auth)
 
-    app.get('/', (req, res) => {
-      console.log('In root!')
-      res.status(200).json({ success: true, data: 'Hej' })
-    })
+    const graphqlServer = graphql(context, httpServer)
+    await graphqlServer.start()
 
     graphqlServer.applyMiddleware({
       app,
       path: '/graphql',
     })
+
+    const restServer = rest()
+    app.use('/rest', restServer)
 
     httpServer.listen({ port: context.port })
   },

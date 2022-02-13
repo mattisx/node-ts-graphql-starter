@@ -13,9 +13,7 @@ gqlFiles.map((file) => {
   })
 })
 
-const schema = makeExecutableSchema({
+export const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
 })
-
-export default schema
