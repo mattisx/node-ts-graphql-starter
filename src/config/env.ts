@@ -7,9 +7,9 @@ import { Env, PgConfig } from '../types/serverTypes'
 if (!process.env.NODE_ENV) {
   throw new Error('Missing NODE_ENV environment variable!')
 }
-if (['dev', 'prod'].indexOf(process.env.NODE_ENV) === -1) {
-  throw new Error(`Environment variable NODE_ENV does not contain either 'dev' or 'prod'.`)
-}
+// if (['dev', 'prod'].indexOf(process.env.NODE_ENV) === -1) {
+//   throw new Error(`Environment variable NODE_ENV does not contain either 'dev' or 'prod'.`)
+// }
 const env: Env = {
   dev: process.env.NODE_ENV === 'dev',
   prod: process.env.NODE_ENV === 'prod',
