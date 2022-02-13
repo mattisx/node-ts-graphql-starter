@@ -20,7 +20,7 @@ export const app = {
       path: '/graphql',
     })
 
-    const restServer = rest()
+    const restServer = rest(context)
     app.use('/rest', restServer)
 
     httpServer.listen({ port: context.port })

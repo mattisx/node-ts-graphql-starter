@@ -1,4 +1,4 @@
-import { CreateAuthorProps, UpdateAuthorProps } from '../../graphql/resolvers/author/mutations'
+import { CreateAuthorProps, UpdateAuthorProps } from '../../graphql/resolvers/author/author.mutations'
 import { Either } from '../../types/serverTypes'
 import { camelCase } from '../../utils/camelCase'
 import { serviceError } from '../../utils/serviceError'

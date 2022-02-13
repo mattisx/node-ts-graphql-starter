@@ -1,2 +1,2 @@
-export { bookMutations } from './mutations'
-export { bookQueries } from './queries'
+export { bookMutations } from './book.mutations'
+export { bookQueries } from './book.queries'

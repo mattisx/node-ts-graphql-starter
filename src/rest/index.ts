@@ -1,5 +1,7 @@
-import { Routes } from './routes'
+import { Context } from '../types/serverTypes'
+import { routes } from './routes'
+import { controllers } from './controllers'
 
-export const rest = () => {
-  return Routes()
+export const rest = (context: Context) => {
+  return routes(controllers(context))
 }

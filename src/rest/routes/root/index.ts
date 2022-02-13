@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response, Router } from 'express'
+import { Controllers } from '../../../types/controllerTypes'
 
-export const RootRoutes = () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const RootRoutes = (controllers: Controllers) => {
   const router: Router = Router()
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

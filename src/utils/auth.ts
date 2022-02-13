@@ -5,6 +5,8 @@ import { JWT_SECRET, JWT_MAX_AGE_SECONDS } from '../config/env'
 export const auth = (req: Request, res: Response, next: NextFunction) => {
   const bearerHeader = req.header('authorization')
 
+  next()
+
   if (bearerHeader && typeof bearerHeader !== undefined) {
     const token: string = bearerHeader.split(' ')[1]
     const options: Record<string, number> = {

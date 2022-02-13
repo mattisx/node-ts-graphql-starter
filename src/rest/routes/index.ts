@@ -1,10 +1,11 @@
 import { Router } from 'express'
+import { Controllers } from '../../types/controllerTypes'
 import { RootRoutes } from './root'
 import { SystemRoutes } from './system'
 
-export const Routes = () => {
+export const routes = (controllers: Controllers) => {
   const mainRouter = Router()
-  mainRouter.use(RootRoutes())
-  mainRouter.use(SystemRoutes())
+  mainRouter.use(RootRoutes(controllers))
+  mainRouter.use(SystemRoutes(controllers))
   return mainRouter
 }

@@ -1,2 +1,2 @@
-export { publisherMutations } from './mutations'
-export { publisherQueries } from './queries'
+export { publisherMutations } from './publisher.mutations'
+export { publisherQueries } from './publisher.queries'
