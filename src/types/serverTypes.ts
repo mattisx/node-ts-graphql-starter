@@ -11,10 +11,12 @@ export interface Context {
   port: number
   pgConfig: PgConfig
   db: DatabaseInstance
+  rateLimitConfig: RateLimitConfig
   services: Services
 }
 
 export type Env = {
+  local: boolean
   dev: boolean
   prod: boolean
 }
@@ -31,6 +33,11 @@ export type PgConfig = {
   PGDATABASE?: string
   PGUSER?: string
   PGPASSWORD?: string
+}
+
+export type RateLimitConfig = {
+  maxRequestCount: number
+  timeWindowSeconds: number
 }
 
 export type Services = {
