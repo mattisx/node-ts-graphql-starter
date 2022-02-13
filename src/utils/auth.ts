@@ -14,13 +14,17 @@ export const auth = (context: Context) => {
 
       jwt.verify(token, context.jwtConfig.secret, options, (err) => {
         if (err) {
-          res.status(401).json({
+          return res.status(401).json({
             success: false,
             message: 'Not authenticated.',
           })
-        } else {
-          next()
         }
+        next()
+      })
+    } else {
+      return res.status(401).json({
+        success: false,
+        message: 'Not authenticated.',
       })
     }
   }
