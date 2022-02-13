@@ -43,4 +43,15 @@ const pgConfig: PgConfig = {
   PGPASSWORD: process.env.PGPASSWORD,
 }
 
-export { port, env, pgConfig }
+// Validate JWT
+if (!process.env.JWT_SECRET) {
+  throw new Error('Missing JWT_SECRET environment variable!')
+}
+const JWT_SECRET: string = process.env.JWT_SECRET
+
+if (!process.env.JWT_MAX_AGE_SECONDS || isNaN(parseInt(process.env.JWT_MAX_AGE_SECONDS))) {
+  throw new Error('Missing or invalid JWT_MAX_AGE_SECONDS environment variable!')
+}
+const JWT_MAX_AGE_SECONDS: number = parseInt(process.env.JWT_MAX_AGE_SECONDS)
+
+export { port, env, pgConfig, JWT_SECRET, JWT_MAX_AGE_SECONDS }
