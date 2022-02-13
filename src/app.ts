@@ -10,7 +10,7 @@ export const app = {
     const app: Express = express()
     const httpServer: Server = http.createServer(app)
 
-    app.use(auth)
+    app.use(auth(context))
 
     const graphqlServer = graphql(context, httpServer)
     await graphqlServer.start()

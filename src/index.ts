@@ -1,4 +1,4 @@
-import { port, env, pgConfig } from './config/env'
+import { port, env, pgConfig, jwtConfig } from './config/env'
 import { app } from './app'
 import { Context } from './types/serverTypes'
 import { DatabaseService } from './services/databaseService'
@@ -13,6 +13,7 @@ const authorService = AuthorService({ db })
 
 const context: Context = {
   env,
+  jwtConfig,
   port,
   pgConfig,
   db,

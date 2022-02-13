@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import { Env, PgConfig } from '../types/serverTypes'
+import { Env, JwtConfig, PgConfig } from '../types/serverTypes'
 
 // Fail fast if required values are missing.
 
@@ -54,4 +54,9 @@ if (!process.env.JWT_MAX_AGE_SECONDS || isNaN(parseInt(process.env.JWT_MAX_AGE_S
 }
 const JWT_MAX_AGE_SECONDS: number = parseInt(process.env.JWT_MAX_AGE_SECONDS)
 
-export { port, env, pgConfig, JWT_SECRET, JWT_MAX_AGE_SECONDS }
+const jwtConfig: JwtConfig = {
+  secret: JWT_SECRET,
+  maxAge: JWT_MAX_AGE_SECONDS,
+}
+
+export { port, env, pgConfig, jwtConfig }

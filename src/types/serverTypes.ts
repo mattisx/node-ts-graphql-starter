@@ -7,6 +7,7 @@ export type Either<T, U> = Only<T, U> | Only<U, T>
 
 export interface Context {
   env: Env
+  jwtConfig: JwtConfig
   port: number
   pgConfig: PgConfig
   db: DatabaseInstance
@@ -16,6 +17,11 @@ export interface Context {
 export type Env = {
   dev: boolean
   prod: boolean
+}
+
+export type JwtConfig = {
+  secret: string
+  maxAge: number
 }
 
 export type PgConfig = {
