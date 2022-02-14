@@ -7,23 +7,15 @@ type Query {
 
   # Author
   authors: [Author]!
-  author(id: ID!): Author!
-
-  # Publisher
-  publishers: [Publisher]!
-  publisher(id: ID!): Publisher
+  author(id: ID!): Author
 }
 
 type Mutation {
   # Books
   createBook(book: CreateBookInput!): Book!
-  updateBook(id: ID!, book: UpdateBookInput!): Book!
+  updateBook(book: UpdateBookInput!): Book
 
   # Authors
-  createAuthor(author: CreateAuthorInput!): Author
+  createAuthor(author: CreateAuthorInput!): Author!
   updateAuthor(author: UpdateAuthorInput!): Author
-
-  # Publishers
-  createPublisher(publisher: PublisherCreateInput!): Publisher!
-  updatePublisher(id: ID!, publisher: PublisherUpdateInput!): Publisher!
 }

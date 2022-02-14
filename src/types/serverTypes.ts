@@ -1,4 +1,5 @@
 import { AuthorService } from '../services/authorService'
+import { BookService } from '../services/bookService'
 import { DatabaseInstance } from '../services/databaseService/databaseService.types'
 
 type Only<T, U> = { [P in keyof T]: T[P] } & Omit<{ [P in keyof U]?: never }, keyof T>
@@ -42,4 +43,5 @@ export type RateLimitConfig = {
 
 export type Services = {
   authorService: AuthorService
+  bookService: BookService
 }

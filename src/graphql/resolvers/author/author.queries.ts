@@ -1,8 +1,8 @@
 import { UserInputError } from 'apollo-server-core'
 import { Context } from '../../../types/serverTypes'
 
-type GetAuthorProps = {
-  id: string
+export type GetAuthorProps = {
+  id: number
 }
 
 export const authorQueries = {
@@ -14,10 +14,11 @@ export const authorQueries = {
     return data
   },
   author: async (parent: never, args: GetAuthorProps, context: Context) => {
-    if (!args.id || isNaN(parseInt(args.id))) {
-      throw new UserInputError('Invalid input id provided, please send a whole number.')
+    args.id = parseInt(String(args.id))
+    if (!args.id || isNaN(args.id)) {
+      throw new UserInputError('Invalid author id provided, please send a whole number.')
     }
-    const { success, data, safeError } = await context.services.authorService.getAuthor(parseInt(args.id))
+    const { success, data, safeError } = await context.services.authorService.getAuthor(args.id)
     if (!success) {
       throw new Error(`Error in AuthorService: ${safeError}`)
     }

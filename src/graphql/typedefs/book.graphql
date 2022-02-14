@@ -12,10 +12,11 @@ type Book implements Timestamps {
 # Inputs
 input CreateBookInput {
   name: String!
-  author_id: ID!
+  authorId: ID!
 }
 
 input UpdateBookInput {
+  id: ID!
   name: String!
-  author_id: ID!
+  authorId: ID!
 }
