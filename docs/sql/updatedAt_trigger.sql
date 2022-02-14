@@ -5,7 +5,7 @@ RETURNS TRIGGER AS $$
         NEW.updated_at = CURRENT_TIMESTAMP;
         RETURN NEW;
     END;
-$$ language 'plsql';
+$$ language 'plpgsql';
 
 -- Apply trigger to table
 CREATE TRIGGER auto_update_updated_at_timestamp BEFORE UPDATE ON authors FOR EACH ROW EXECUTE PROCEDURE updated_at_trigger();

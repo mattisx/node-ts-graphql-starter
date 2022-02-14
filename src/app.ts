@@ -12,7 +12,6 @@ export const app = {
     const httpServer: Server = http.createServer(app)
 
     app.use(rateLimit(context))
-    app.use(auth(context))
 
     const graphqlServer = graphql(context, httpServer)
     await graphqlServer.start()
@@ -22,6 +21,7 @@ export const app = {
       path: '/graphql',
     })
 
+    app.use(auth(context))
     const restServer = rest(context)
     app.use('/rest', restServer)
 

@@ -26,7 +26,8 @@ const context: Context = {
 const start = async (context: Context) => {
   try {
     await app.run(context)
-    console.log(`GraphQL API running on port ${context.port}.`)
+    console.log(`GraphQL serving on <host>:${port}/graphql`)
+    console.log(`REST serving on <host>:${port}/rest`)
   } catch (error: unknown) {
     throw new Error(`Unable to start the server: ${JSON.stringify(error)}`)
   }
