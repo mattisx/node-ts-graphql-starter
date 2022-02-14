@@ -11,7 +11,13 @@ const rateDataByIp: Record<string, RateData> = {}
 
 export const rateLimit = (context: Context) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const ipAddress = getIpAddressFromRequest(context, req)
+    let ipAddress
+    try {
+      ipAddress = getIpAddressFromRequest(context, req)
+    } catch (e) {
+      return next()
+    }
+
     if (!ipAddress || ipAddress.length === 0) {
       return next()
     }
