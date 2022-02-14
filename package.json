@@ -7,7 +7,6 @@
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
     "watch": "nodemon --watch \"./**/*.{ts,graphql}\" --exec \"node --experimental-specifier-resolution=node --loader ts-node/esm\" src/index.ts",
     "dev": "tsc-watch --onSuccess \"npm run watch\"",
-    "script": "nodemon src/test.js",
     "print-jwt-token": "node -r dotenv/config scripts/printJWTToken.js"
   },
   "keywords": [],
