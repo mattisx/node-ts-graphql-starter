@@ -1,20 +1,21 @@
 # Types
-type Book implements Timestamps { 
+type Book implements Timestamps {
   id: ID!
   name: String!
   author: Author!
-  
+
   # Interface requires these
   createdAt: Date!
   updatedAt: Date!
 }
 
 # Inputs
-input BookCreateInput {
+input CreateBookInput {
   name: String!
-  author: ID!
+  author_id: ID!
 }
 
-input BookUpdateInput {
-  name: String
+input UpdateBookInput {
+  name: String!
+  author_id: ID!
 }

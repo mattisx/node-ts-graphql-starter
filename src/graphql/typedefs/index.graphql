@@ -16,12 +16,12 @@ type Query {
 
 type Mutation {
   # Books
-  createBook(book: BookCreateInput!): Book!
-  updateBook(id: ID!, book: BookUpdateInput!): Book!
+  createBook(book: CreateBookInput!): Book!
+  updateBook(id: ID!, book: UpdateBookInput!): Book!
 
   # Authors
-  createAuthor(name: String): Author
-  updateAuthor(id: ID!, name: String): Author
+  createAuthor(author: CreateAuthorInput!): Author
+  updateAuthor(author: UpdateAuthorInput!): Author
 
   # Publishers
   createPublisher(publisher: PublisherCreateInput!): Publisher!

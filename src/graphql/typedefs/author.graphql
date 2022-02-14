@@ -7,3 +7,13 @@ type Author implements Timestamps {
   createdAt: Date!
   updatedAt: Date!
 }
+
+# Inputs
+input CreateAuthorInput {
+  name: String!
+}
+
+input UpdateAuthorInput {
+  id: ID!
+  name: String!
+}

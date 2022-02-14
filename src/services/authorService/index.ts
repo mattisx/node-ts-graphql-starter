@@ -33,10 +33,10 @@ export const AuthorService = ({ db }: AuthorServiceProps): AuthorService => {
     }
   }
 
-  const createAuthor = async ({ name }: CreateAuthorProps) => {
+  const createAuthor = async ({ author }: CreateAuthorProps) => {
     try {
       const query = 'INSERT INTO authors (name) VALUES ($1) RETURNING *'
-      const values = [name]
+      const values = [author.name]
       const { rows } = await db.query(query, values)
       return { success: true, data: <Author[]>camelCase(rows)[0] }
     } catch (error: unknown) {
@@ -44,10 +44,10 @@ export const AuthorService = ({ db }: AuthorServiceProps): AuthorService => {
     }
   }
 
-  const updateAuthor = async ({ id, name }: UpdateAuthorProps) => {
+  const updateAuthor = async ({ author }: UpdateAuthorProps) => {
     try {
       const query = 'UPDATE authors SET name = $2 WHERE id = $1 RETURNING *'
-      const values = [id, name]
+      const values = [author.id, author.name]
       const { rows } = await db.query(query, values)
       return { success: true, data: <Author[]>camelCase(rows)[0] }
     } catch (error: unknown) {
