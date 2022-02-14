@@ -21,7 +21,7 @@ create table authors
 
 create table books
 (
-    id         serial constraint books_pk primary key constraint books_author_id_fk references authors on delete cascade,
+    id         serial constraint books_pk primary key,
     name       text                                  not null,
     author_id  integer                               not null constraint books_author_id_fk references authors on delete cascade,
     created_at timestamptz default CURRENT_TIMESTAMP not null,
