@@ -1,6 +1,7 @@
 type Author implements Timestamps {
   id: ID!
   name: String!
+  books: [Book]
 
   # Timestamp interface (in common.graphql) will enforce that these exists
   createdAt: Date!

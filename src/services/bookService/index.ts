@@ -3,11 +3,13 @@ import { GetBookProps } from '../../graphql/resolvers/book/book.queries'
 import { Either } from '../../types/serverTypes'
 import { camelCase } from '../../utils/camelCase'
 import { serviceError } from '../../utils/serviceError'
+import { Author } from '../authorService/authorService.types'
 import { Book, BookResponse, BookServiceProps, ServiceError } from './bookService.types'
 
 export interface BookService {
   getBook: (props: GetBookProps) => Promise<Either<BookResponse, ServiceError>>
   getBooks: () => Promise<Either<BookResponse, ServiceError>>
+  getAuthorBooks: (author: Author) => Promise<Either<BookResponse, ServiceError>>
   createBook: (props: CreateBookProps) => Promise<Either<BookResponse, ServiceError>>
   updateBook: (props: UpdateBookProps) => Promise<Either<BookResponse, ServiceError>>
 }
@@ -31,6 +33,17 @@ export const BookService = ({ db }: BookServiceProps): BookService => {
       return { success: true, data: <Book[]>camelCase(rows) }
     } catch (error: unknown) {
       return serviceError(error, 'Could not get books.')
+    }
+  }
+
+  const getAuthorBooks = async (author: Author) => {
+    try {
+      const query = 'SELECT * FROM books WHERE author_id = $1'
+      const values = [author.id]
+      const { rows } = await db.query(query, values)
+      return { success: true, data: <Book[]>camelCase(rows) }
+    } catch (error: unknown) {
+      return serviceError(error, 'Could not get books for author.')
     }
   }
 
@@ -59,6 +72,7 @@ export const BookService = ({ db }: BookServiceProps): BookService => {
   return {
     getBook,
     getBooks,
+    getAuthorBooks,
     createBook,
     updateBook,
   }

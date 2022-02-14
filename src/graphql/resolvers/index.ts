@@ -1,23 +1,18 @@
-import { Book } from '../../services/bookService/bookService.types'
 import { Context } from '../../types/serverTypes'
-import { authorMutations, authorQueries } from './author'
-import { bookMutations, bookQueries } from './book'
+import { authorResolvers } from './author'
+import { bookResolvers } from './book'
 
 export const resolvers = (context: Context) => {
   return {
     Query: {
-      ...authorQueries,
-      ...bookQueries,
+      ...authorResolvers(context).queries,
+      ...bookResolvers(context).queries,
     },
     Mutation: {
-      ...authorMutations,
-      ...bookMutations,
+      ...authorResolvers(context).mutations,
+      ...bookResolvers(context).mutations,
     },
-    Book: {
-      author: async (book: Book) => {
-        const { data } = await context.services.authorService.getAuthor(book.authorId)
-        return data
-      },
-    },
+    ...authorResolvers(context).fields,
+    ...bookResolvers(context).fields,
   }
 }
