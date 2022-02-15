@@ -14,7 +14,7 @@ export const rateLimit = (context: Context) => {
     let ipAddress
     try {
       ipAddress = getIpAddressFromRequest(context, req)
-    } catch (e) {
+    } catch (error: unknown) {
       return next()
     }
 
