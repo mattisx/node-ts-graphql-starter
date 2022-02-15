@@ -1,31 +1,42 @@
-import { NextFunction, Request, Response } from 'express'
+import { Request } from 'express'
 import jwt from 'jsonwebtoken'
 import { Context } from '../types/serverTypes'
 
-export const auth = (context: Context) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    const bearerHeader = req.header('authorization')
+type Payload = {
+  id: string
+  email: string
+}
 
-    if (bearerHeader && typeof bearerHeader !== undefined) {
-      const token: string = bearerHeader.split(' ')[1]
-      const options: Record<string, number> = {
-        maxAge: context.jwtConfig.maxAge,
-      }
+type ValidateJWTOutput = {
+  isValid: boolean
+  payload: Payload | null
+}
 
-      jwt.verify(token, context.jwtConfig.secret, options, (err) => {
-        if (err) {
-          return res.status(401).json({
-            success: false,
-            message: 'Not authenticated.',
-          })
-        }
-        next()
-      })
-    } else {
-      return res.status(401).json({
-        success: false,
-        message: 'Not authenticated.',
-      })
+export const validateJWT = (context: Context, req: Request): ValidateJWTOutput => {
+  const bearerHeader = req.header('authorization')
+  if (!bearerHeader || typeof bearerHeader === undefined) {
+    return {
+      isValid: false,
+      payload: null,
     }
+  }
+
+  const token: string = bearerHeader.split(' ')[1]
+  const options: Record<string, number> = {
+    maxAge: context.jwtConfig.maxAge,
+  }
+  let payload
+  try {
+    payload = jwt.verify(token, context.jwtConfig.secret, options) as Payload
+  } catch (error: unknown) {
+    return {
+      isValid: false,
+      payload: null,
+    }
+  }
+
+  return {
+    isValid: true,
+    payload,
   }
 }

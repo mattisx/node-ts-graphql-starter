@@ -3,7 +3,7 @@ import http, { Server } from 'http'
 import { Context } from './types/serverTypes'
 import { graphql } from './graphql'
 import { rest } from './rest'
-import { auth } from './utils/auth'
+import { authRest } from './utils/authRest'
 import { rateLimit } from './utils/rateLimit'
 
 export const app = {
@@ -21,7 +21,7 @@ export const app = {
       path: '/graphql',
     })
 
-    app.use(auth(context))
+    app.use(authRest(context))
     const restServer = rest(context)
     app.use('/rest', restServer)
 
