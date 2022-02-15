@@ -28,8 +28,6 @@ export const SystemController = ({ db }: Context) => {
         database: { status: StatusTypes.NOT_OK },
       }
 
-      console.log(data.rows)
-
       if (data.rows.length > 0) {
         systems.database.status = StatusTypes.OK
       } else {
