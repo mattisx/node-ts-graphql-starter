@@ -28,7 +28,6 @@ export type JwtConfig = {
 }
 
 export type PgConfig = {
-  active: boolean
   PGHOST?: string
   PGPORT?: string
   PGDATABASE?: string

@@ -23,20 +23,17 @@ if (!process.env.PORT || isNaN(parseInt(process.env.PORT))) {
 const port: number = parseInt(process.env.PORT)
 
 // Validate POSTGRES
-if (process.env.USE_POSTGRES) {
-  const pgConnectionValues: string[] = ['PGHOST', 'PGPORT', 'PGDATABASE', 'PGUSER', 'PGPASSWORD']
-  const missingPgValues: string[] = pgConnectionValues.filter((v) => {
-    if (!process.env[v]) return v
-  })
-  if (missingPgValues.length > 0) {
-    throw new Error(`USE_POSTGRES=1 requires the following missing values in .env: ${missingPgValues.join(', ')}`)
-  }
+const pgConnectionValues: string[] = ['PGHOST', 'PGPORT', 'PGDATABASE', 'PGUSER', 'PGPASSWORD']
+const missingPgValues: string[] = pgConnectionValues.filter((v) => {
+  if (!process.env[v]) return v
+})
+if (missingPgValues.length > 0) {
+  throw new Error(`The following required values are missing from .env: ${missingPgValues.join(', ')}`)
 }
 
 // pg will automatically use the correct PG* env if available in process.env,
 // but in case we want to connect to the db in some other way, we'll export them as pgConfig.
 const pgConfig: PgConfig = {
-  active: process.env.USE_POSTGRES ? true : false,
   PGHOST: process.env.PGHOST,
   PGPORT: process.env.PGPORT,
   PGDATABASE: process.env.PGDATABASE,
