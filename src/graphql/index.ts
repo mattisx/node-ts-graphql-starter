@@ -3,7 +3,7 @@ import { ApolloServerPluginDrainHttpServer, AuthenticationError } from 'apollo-s
 import { getSchema } from './schema'
 import { Server } from 'http'
 import { Context } from '../types/serverTypes'
-import { validateJWT } from '../utils/auth'
+import { validateJWT } from '../utils/validateJWT'
 
 export const graphql = (context: Context, httpServer: Server) => {
   const schema = getSchema(context)

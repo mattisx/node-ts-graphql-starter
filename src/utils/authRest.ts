@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { Context } from '../types/serverTypes'
-import { validateJWT } from './auth'
+import { validateJWT } from './validateJWT'
 
 export const authRest = (context: Context) => {
   return (req: Request, res: Response, next: NextFunction) => {
