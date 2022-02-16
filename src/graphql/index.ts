@@ -1,9 +1,9 @@
 import { ApolloServer } from 'apollo-server-express'
-import { ApolloServerPluginDrainHttpServer, AuthenticationError } from 'apollo-server-core'
+import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core'
 import { getSchema } from './schema'
 import { Server } from 'http'
 import { Context } from '../types/serverTypes'
-import { validateJWT } from '../utils/validateJWT'
+import { authGraphql } from '../utils/authGraphql'
 
 export const graphql = (context: Context, httpServer: Server) => {
   const schema = getSchema(context)
@@ -13,11 +13,7 @@ export const graphql = (context: Context, httpServer: Server) => {
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     context: ({ req }) => {
       const bearerHeader = req.header('authorization')
-      const { isValid, payload } = validateJWT(context, bearerHeader)
-
-      if (!isValid || payload === null) {
-        throw new AuthenticationError('Error when validating JWT.')
-      }
+      const payload = authGraphql(context, bearerHeader)
 
       const user = { id: payload.id, email: payload.email }
       return { ...context, user }
