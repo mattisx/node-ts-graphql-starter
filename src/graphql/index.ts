@@ -12,7 +12,8 @@ export const graphql = (context: Context, httpServer: Server) => {
     schema,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     context: ({ req }) => {
-      const { isValid, payload } = validateJWT(context, req)
+      const bearerHeader = req.header('authorization')
+      const { isValid, payload } = validateJWT(context, bearerHeader)
 
       if (!isValid || payload === null) {
         throw new AuthenticationError('Error when validating JWT.')

@@ -4,7 +4,8 @@ import { validateJWT } from './validateJWT'
 
 export const authRest = (context: Context) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const { isValid, payload } = validateJWT(context, req)
+    const bearerHeader = req.header('authorization')
+    const { isValid, payload } = validateJWT(context, bearerHeader)
 
     if (!isValid || payload === null) {
       return res.status(401).json({

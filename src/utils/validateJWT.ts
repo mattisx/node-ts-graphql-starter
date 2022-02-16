@@ -1,4 +1,3 @@
-import { Request } from 'express'
 import jwt from 'jsonwebtoken'
 import { Context } from '../types/serverTypes'
 
@@ -12,8 +11,7 @@ type ValidateJWTOutput = {
   payload: Payload | null
 }
 
-export const validateJWT = (context: Context, req: Request): ValidateJWTOutput => {
-  const bearerHeader = req.header('authorization')
+export const validateJWT = (context: Context, bearerHeader: string | undefined): ValidateJWTOutput => {
   if (!bearerHeader || typeof bearerHeader === undefined) {
     return {
       isValid: false,
