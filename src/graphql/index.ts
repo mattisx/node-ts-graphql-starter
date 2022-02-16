@@ -1,5 +1,5 @@
 import { ApolloServer } from 'apollo-server-express'
-import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core'
+import { ApolloServerPluginDrainHttpServer, AuthenticationError } from 'apollo-server-core'
 import { getSchema } from './schema'
 import { Server } from 'http'
 import { Context } from '../types/serverTypes'
@@ -15,7 +15,7 @@ export const graphql = (context: Context, httpServer: Server) => {
       const { isValid, payload } = validateJWT(context, req)
 
       if (!isValid || payload === null) {
-        throw new Error('Error when validating JWT.')
+        throw new AuthenticationError('Error when validating JWT.')
       }
 
       const user = { id: payload.id, email: payload.email }
