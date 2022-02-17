@@ -1,0 +1,1 @@
+CREATE TYPE nutrient_types AS ENUM('BASIC', 'MINERAL', 'VITAMIN');
