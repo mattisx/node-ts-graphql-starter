@@ -12,7 +12,9 @@ const doCamelCase = (key: string) => {
     .join('')
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const camelCase = (dbOutput: any[]) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return dbOutput.map((row: any[]) => {
     return Object.fromEntries(Object.entries(row).map(([key, value]) => [`${doCamelCase(key)}`, value]))
   })
