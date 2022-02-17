@@ -1,18 +1,15 @@
-import { Context } from '../../types/serverTypes'
-import { authorResolvers } from './author'
-import { bookResolvers } from './book'
+import { authorQueries, authorMutations, authorFields } from './author'
+import { bookQueries, bookMutations, bookFields } from './book'
 
-export const resolvers = (context: Context) => {
-  return {
-    Query: {
-      ...authorResolvers(context).queries,
-      ...bookResolvers(context).queries,
-    },
-    Mutation: {
-      ...authorResolvers(context).mutations,
-      ...bookResolvers(context).mutations,
-    },
-    ...authorResolvers(context).fields,
-    ...bookResolvers(context).fields,
-  }
+export const resolvers = {
+  Query: {
+    ...authorQueries,
+    ...bookQueries,
+  },
+  Mutation: {
+    ...authorMutations,
+    ...bookMutations,
+  },
+  ...authorFields,
+  ...bookFields,
 }
