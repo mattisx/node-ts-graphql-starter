@@ -4,6 +4,11 @@ import { validateJWT } from './validateJWT'
 
 export const authRest = (context: Context) => {
   return (req: Request, res: Response, next: NextFunction) => {
+    const allowedUnauthenticatedPaths = ['/rest/ping']
+    if (allowedUnauthenticatedPaths.includes(req.path)) {
+      return next()
+    }
+
     const bearerHeader = req.header('authorization')
     const { isValid, payload } = validateJWT(context, bearerHeader)
 
