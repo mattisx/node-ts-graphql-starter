@@ -5,28 +5,28 @@ import { DatabaseService } from './services/databaseService'
 import { AuthorService } from './services/authorService'
 import { BookService } from './services/bookService'
 
-// Initialize all dependencies here and add to context
+const start = async () => {
+  // Initialize all dependencies here and add to context
 
-const databaseService = DatabaseService()
-const db = await databaseService.init()
+  const databaseService = DatabaseService()
+  const db = await databaseService.init()
 
-const authorService = AuthorService({ db })
-const bookService = BookService({ db })
+  const authorService = AuthorService({ db })
+  const bookService = BookService({ db })
 
-const context: Context = {
-  env,
-  jwtConfig,
-  port,
-  pgConfig,
-  db,
-  rateLimitConfig,
-  services: {
-    authorService,
-    bookService,
-  },
-}
+  const context: Context = {
+    env,
+    port,
+    pgConfig,
+    db,
+    jwtConfig,
+    rateLimitConfig,
+    services: {
+      authorService,
+      bookService,
+    },
+  }
 
-const start = async (context: Context) => {
   try {
     await app.run(context)
     console.log(`GraphQL serving on <host>:${port}/graphql`)
@@ -36,4 +36,4 @@ const start = async (context: Context) => {
   }
 }
 
-start(context)
+start()

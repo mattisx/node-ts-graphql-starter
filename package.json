@@ -4,11 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "swc src -d dist --copy-files",
+    "build-dev": "npm run build && node --experimental-specifier-resolution=node --inspect dist/index.js",
+    "dev": "nodemon --ext ts --exec \"npm run build-dev\"",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
-    "watch": "nodemon --watch \"./**/*.{ts,graphql}\" --exec \"node --experimental-specifier-resolution=node --loader ts-node/esm\" src/index.ts",
-    "dev": "tsc-watch --onSuccess \"npm run watch\"",
+    "start": "node --experimental-specifier-resolution=node ./dist/index.js",
     "print-jwt-token": "node -r dotenv/config scripts/printJWTToken.js",
-    "husky-setup": "husky install"
+    "husky-install": "husky install",
+    "download-env:dev": "gcloud config set project beet-dev-340313 && gsutil cp gs://beet-dev-secrets/.env.enc . && npm run decrypt-env",
+    "download-env:prod": "gcloud config set project beet-prod && gsutil cp gs://beet-prod-secrets/.env.enc . && npm run decrypt-env",
+    "upload-env:dev": "gcloud config set project beet-dev-340313 && npm run encrypt-env && gsutil cp .env.enc gs://beet-dev-secrets/.env.enc",
+    "upload-env:prod": "gcloud config set project beet-prod && npm run encrypt-env && gsutil cp .env.enc gs://beet-prod-secrets/.env.enc",
+    "decrypt-env": "gcloud kms decrypt --keyring=beet-keyring --key=beet-key --location=europe-west1 --ciphertext-file=.env.enc --plaintext-file=.env",
+    "encrypt-env": "gcloud kms encrypt --keyring=beet-keyring --key=beet-key --location=europe-west1 --ciphertext-file=.env.enc --plaintext-file=.env"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +34,8 @@
     "pg": "^8.7.3"
   },
   "devDependencies": {
+    "@swc/cli": "^0.1.55",
+    "@swc/core": "^1.2.142",
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "^17.0.15",
